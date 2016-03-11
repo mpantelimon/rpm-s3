@@ -100,8 +100,8 @@ class FileGrabber(object):
         filepath = urlparse.urlsplit(url).path
         realfilename = os.path.join(self.basepath, filepath)
         logging.info('fetching: %s', realfilename)
-        # The filename name is REALLY important for createrepo as it derives
-        # the base path from its own tempdir, etc.
+        # The file name is REALLY important for createrepo as it derives the
+        # base path from its own tempdir, etc.
         os.symlink(realfilename, filename)
         return filename
 
@@ -207,9 +207,9 @@ def update_repodata(repopath, rpmfiles, options):
             if i > options.keep or older.pkgtup == newpkg.pkgtup:
                 yumbase.pkgSack.delPackage(older)
                 logging.info('ignoring: %s', older.ui_nevra)
-        ## The package is now removed if it has the same name
-        ## If we passed -d true, then we don't want to add it back
-        ## if we didn't then we wnat to include the package
+        ## The package is now removed if it has the same name.
+        ## If we passed "-d true", then we don't want to add it back;
+        ## if we didn't, then we want to include the package.
         if options.delete is False:
             new_packages.append(newpkg)
     mdconf.pkglist = list(yumbase.pkgSack) + new_packages
@@ -224,7 +224,6 @@ def update_repodata(repopath, rpmfiles, options):
         rpmfile = os.path.realpath(rpmfile)
         logging.info("rpmfile: %s", rpmfile)
         s3grabber.upload(rpmfile, os.path.basename(rpmfile))
-
 
     # Generate repodata/repomd.xml.asc
     if options.sign:
